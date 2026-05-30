@@ -1,0 +1,16 @@
+# build output
+dist/
+# astro generated types/cache
+.astro/
+# deps
+node_modules/
+# env (never commit real values)
+.env
+.env.local
+.env.*.local
+# logs / os
+*.log
+npm-debug.log*
+.DS_Store
+# local tooling / editor state
+.claude/

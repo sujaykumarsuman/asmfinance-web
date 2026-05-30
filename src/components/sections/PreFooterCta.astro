@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionContainer from '../SectionContainer.astro';
+import Button from '../Button.astro';
+import { ANCHORS, whatsappLink } from '../../lib/site';
+
+// §9 Pre-footer CTA strip — calm cream band, deep forest text, no images.
+const wa = whatsappLink('Hi ASM Investments, I would like to book a call.');
+---
+
+<SectionContainer bg="cream" spacing="tight">
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 class="text-h2 text-forest">Not sure yet? That's fine.</h2>
+    <p class="mt-4 text-lead text-slate">
+      A 30-minute conversation costs nothing and rarely changes anything. Sometimes it changes a lot.
+    </p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <Button variant="primary" href={`#${ANCHORS.contact}`}>Book a free call</Button>
+      <Button variant="secondary" href={wa ?? `#${ANCHORS.contact}`} rel={wa ? 'noopener' : undefined}>
+        <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
+        WhatsApp us
+      </Button>
+    </div>
+  </div>
+</SectionContainer>

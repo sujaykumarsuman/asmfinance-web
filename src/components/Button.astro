@@ -1,0 +1,48 @@
+---
+// Button / link with design-system variants. Renders <a> when `href` is set,
+// otherwise <button>. Colors via tokens only (docs/03-design-system.md §Button).
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'text';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'md' | 'sm';
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  size = 'md',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-150 ease-out disabled:opacity-60 disabled:pointer-events-none';
+const sizes: Record<string, string> = {
+  md: 'px-5 py-3 text-body',
+  sm: 'px-4 py-2 text-small',
+};
+const variants: Record<string, string> = {
+  primary: 'bg-forest text-cream hover:bg-forest-dark',
+  secondary: 'border border-forest text-forest hover:bg-forest hover:text-cream',
+  ghost: 'text-forest hover:bg-ivory',
+  text: 'text-emerald underline-offset-4 hover:underline',
+};
+// The text/tertiary variant is inline — no button padding.
+const pad = variant === 'text' ? '' : sizes[size];
+const cls = [base, pad, variants[variant], className];
+---
+
+{
+  href ? (
+    <a href={href} class:list={cls} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={cls} {...rest}>
+      <slot />
+    </button>
+  )
+}

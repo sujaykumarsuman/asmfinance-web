@@ -1,0 +1,56 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionContainer from '../SectionContainer.astro';
+import { ANCHORS } from '../../lib/site';
+
+// §2 What we do (brief). Three chips/cards linking to the matching detail (§4 / §5).
+const blocks = [
+  {
+    icon: 'lucide:sprout',
+    title: 'Build wealth.',
+    body: 'Mutual funds, equity, bonds, NPS — curated to your goals, not to product commissions.',
+    href: `#${ANCHORS.services}`,
+  },
+  {
+    icon: 'lucide:shield-check',
+    title: 'Protect what you have.',
+    body: 'Life, health and general insurance — sized to what your family actually needs.',
+    href: `#${ANCHORS.services}`,
+  },
+  {
+    icon: 'lucide:globe-2',
+    title: 'Cross borders cleanly.',
+    body: 'NRI investing, GIFT City, repatriation, cross-border tax — one Indian touchpoint.',
+    href: `#${ANCHORS.nri}`,
+  },
+];
+---
+
+<SectionContainer bg="cream" spacing="tight">
+  <ul class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+    {
+      blocks.map((b) => (
+        <li>
+          <a
+            href={b.href}
+            class="group flex h-full flex-col rounded-lg border border-border bg-paper p-6 shadow-card transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-pop md:p-8"
+          >
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sage/25 text-forest">
+              <Icon name={b.icon} class="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h2 class="mt-4 text-h3 text-ink">{b.title}</h2>
+            <p class="mt-2 text-body text-slate">{b.body}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-small font-medium text-emerald">
+              Learn more
+              <Icon
+                name="lucide:arrow-right"
+                class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</SectionContainer>

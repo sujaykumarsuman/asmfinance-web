@@ -1,0 +1,124 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionContainer from '../SectionContainer.astro';
+import Eyebrow from '../Eyebrow.astro';
+import Button from '../Button.astro';
+import { ANCHORS } from '../../lib/site';
+
+// §4 Service tiers. Copy verbatim. `note` lines render as sub-headers (no bullet).
+type Line = { t: string; note?: boolean };
+interface Tier {
+  name: string;
+  icon: string;
+  tagline: string;
+  lines: Line[];
+  fee: string;
+  cta: { label: string; href: string };
+}
+
+const tiers: Tier[] = [
+  {
+    name: 'Core',
+    icon: 'lucide:leaf',
+    tagline: 'For starters and SIP savers.',
+    lines: [
+      { t: 'AUM under ₹25 lakh' },
+      { t: 'Mutual fund SIPs across 3-5 schemes' },
+      { t: 'Term + family health insurance' },
+      { t: 'NPS for retirement' },
+      { t: 'Annual review' },
+      { t: 'Digital onboarding' },
+    ],
+    fee: 'Commission-only — you pay no fee',
+    cta: { label: 'Start a SIP', href: `/?seg=core#${ANCHORS.contact}` },
+  },
+  {
+    name: 'Premium',
+    icon: 'lucide:layers',
+    tagline: 'For working families and small business owners.',
+    lines: [
+      { t: 'AUM ₹25 lakh – ₹2 crore' },
+      { t: 'Everything in Core, plus:', note: true },
+      { t: 'Written financial plan' },
+      { t: 'Tax-saving overlay (ELSS, NPS, insurance)' },
+      { t: 'Equity broking via Mirae Asset Sharekhan' },
+      { t: 'Half-yearly review with a named relationship manager' },
+    ],
+    fee: 'Plan fee ₹25,000 – ₹75,000 one-time, or commission-only',
+    cta: { label: 'Get a plan', href: `/?seg=premium#${ANCHORS.contact}` },
+  },
+  {
+    name: 'Wealth',
+    icon: 'lucide:gem',
+    tagline: 'For HNI families and successful professionals.',
+    lines: [
+      { t: 'AUM ₹2 crore – ₹10 crore+' },
+      { t: 'Everything in Premium, plus:', note: true },
+      { t: 'PMS, AIFs, structured products' },
+      { t: 'Documented Investment Policy Statement' },
+      { t: 'Family-CFO services on request' },
+      { t: 'Quarterly review with senior advisor' },
+    ],
+    fee: 'AUA-based advisory fee under SEBI RIA (in progress)',
+    cta: { label: 'Schedule a private consultation', href: `/?seg=wealth#${ANCHORS.contact}` },
+  },
+  {
+    name: 'NRI',
+    icon: 'lucide:plane',
+    tagline: 'For Indians living abroad.',
+    lines: [
+      { t: 'For non-resident Indians in the GCC, US, Canada, UK, EU, Singapore and SEA.', note: true },
+      { t: 'NRE / NRO / FCNR account setup help' },
+      { t: 'GIFT City funds, PMS, USD ULIPs' },
+      { t: 'Repatriation and Form 15CA / 15CB via CA partner' },
+      { t: 'Cross-border tax pack (US clients paired with a US CPA)' },
+      { t: 'Will / succession basics across jurisdictions' },
+    ],
+    fee: 'Service in your time zone',
+    cta: { label: 'Talk to us about NRI services', href: '/nri' },
+  },
+];
+---
+
+<SectionContainer id={ANCHORS.services} bg="ivory" class="scroll-mt-20">
+  <div class="max-w-2xl">
+    <Eyebrow>WHAT WE DO IN DETAIL</Eyebrow>
+    <h2 class="mt-3 text-h2 text-forest">Four ways we work with families.</h2>
+    <p class="mt-4 text-lead text-slate">
+      Pick the tier that fits. You can move between them as your needs change.
+    </p>
+  </div>
+
+  <ul class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+    {
+      tiers.map((tier) => (
+        <li class="flex h-full flex-col rounded-lg border border-border bg-paper p-6 shadow-card md:p-7">
+          <span class="mb-4 block h-0.5 w-6 rounded-full bg-gold" aria-hidden="true" />
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sage/25 text-forest">
+            <Icon name={tier.icon} class="h-5 w-5" aria-hidden="true" />
+          </span>
+          <h3 class="mt-4 text-h3 text-ink">{tier.name}</h3>
+          <p class="mt-1 text-body italic text-emerald">{tier.tagline}</p>
+
+          <ul class="mt-4 flex-1 space-y-2 text-small text-slate">
+            {tier.lines.map((line) =>
+              line.note ? (
+                <li class="pt-1 font-semibold text-ink">{line.t}</li>
+              ) : (
+                <li class="flex items-start gap-2">
+                  <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald" aria-hidden="true" />
+                  <span>{line.t}</span>
+                </li>
+              )
+            )}
+          </ul>
+
+          <p class="mt-4 border-t border-border pt-4 text-small font-medium text-forest">{tier.fee}</p>
+          <Button variant="secondary" href={tier.cta.href} size="sm" class="mt-4 w-full">
+            {tier.cta.label}
+          </Button>
+        </li>
+      ))
+    }
+  </ul>
+</SectionContainer>

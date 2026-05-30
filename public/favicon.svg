@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <title>ASM Investments — monogram with cream square</title>
+  <desc>Square monogram with cream rounded background. Drop-in favicon / app icon source.</desc>
+
+  <rect x="0" y="0" width="240" height="240" rx="32" fill="#FBF8F1"/>
+
+  <text x="120" y="155"
+        font-family="Fraunces, 'Source Serif 4', Georgia, serif"
+        font-weight="600"
+        font-size="110"
+        fill="#1F5132"
+        text-anchor="middle"
+        letter-spacing="-3">ASM</text>
+
+  <circle cx="120" cy="190" r="3.5" fill="#C9A227"/>
+</svg>

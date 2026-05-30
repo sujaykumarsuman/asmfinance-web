@@ -1,0 +1,14 @@
+---
+// Small-caps eyebrow label (docs/03-design-system.md §Eyebrow).
+// tone="cream" is for use on the dark forest NRI band.
+interface Props {
+  as?: 'p' | 'span' | 'div';
+  tone?: 'gold' | 'cream';
+  class?: string;
+}
+const { as = 'p', tone = 'gold', class: className = '' } = Astro.props;
+const Tag = as;
+const toneClass = tone === 'cream' ? 'text-cream' : 'text-gold';
+---
+
+<Tag class:list={['text-caps uppercase', toneClass, className]}><slot /></Tag>

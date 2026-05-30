@@ -1,0 +1,52 @@
+---
+import SectionContainer from '../SectionContainer.astro';
+import Eyebrow from '../Eyebrow.astro';
+
+// §6 How it works — horizontal stepper on desktop, vertical timeline on mobile.
+const steps = [
+  {
+    n: '01',
+    title: 'Discovery call',
+    detail:
+      'A free 30-minute online call to understand your goals, current portfolio and family context. In-person where possible.',
+  },
+  {
+    n: '02',
+    title: 'Plan and proposal',
+    detail:
+      'We write a one-page plan, recommend a tier and propose either a fee-based or commission-based engagement. Your choice.',
+  },
+  {
+    n: '03',
+    title: 'Onboarding',
+    detail:
+      'Digital KYC, e-mandates and the first transaction. Residents in 48-72 hours. NRIs in 7-10 working days.',
+  },
+  {
+    n: '04',
+    title: 'Review and adapt',
+    detail:
+      'Quarterly for Wealth, half-yearly for Premium, annual for Core. Mid-cycle updates over WhatsApp.',
+  },
+];
+---
+
+<SectionContainer bg="cream">
+  <div class="max-w-2xl">
+    <Eyebrow>HOW IT WORKS</Eyebrow>
+    <h2 class="mt-3 text-h2 text-forest">Four steps. No surprises.</h2>
+  </div>
+
+  <ol class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      steps.map((step) => (
+        <li class="relative border-t-2 border-border pt-5">
+          <span class="absolute -top-px left-0 h-0.5 w-10 bg-gold" aria-hidden="true" />
+          <span class="font-serif text-h2 font-semibold text-gold/80">{step.n}</span>
+          <h3 class="mt-2 text-h4 text-ink">{step.title}</h3>
+          <p class="mt-2 text-small text-slate">{step.detail}</p>
+        </li>
+      ))
+    }
+  </ol>
+</SectionContainer>

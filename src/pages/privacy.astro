@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import Prose from '../components/Prose.astro';
+
+// DPDP-aligned privacy notice — boilerplate verbatim from docs/02-content-spec.md §Privacy.
+// TODO(human): final review by a CA / lawyer before launch; confirm "Last updated" date.
+---
+
+<BaseLayout
+  title="Privacy Notice"
+  description="How ASM Investments collects, uses, shares and retains your personal data under the Digital Personal Data Protection Act, 2023."
+>
+  <SectionContainer bg="cream">
+    <Prose>
+      <h1>Privacy Notice</h1>
+      <p class="!mt-2 text-small text-muted">Last updated: 31 May 2026</p>
+
+      <p>
+        ASM Investments (“we”, “us”) collects and processes personal information under the Digital
+        Personal Data Protection Act, 2023 (“DPDP Act”). This notice explains what we collect, why,
+        who we share it with, how long we keep it, and your rights.
+      </p>
+
+      <h2>1. What we collect</h2>
+      <p>
+        When you contact us via this site, we collect: name, email, phone / WhatsApp, country /
+        region, your selected segment, and any message you send us. If you become a client, we
+        collect identification documents (KYC), financial information, and account details as
+        required by AMFI, SEBI, IRDAI and applicable tax authorities.
+      </p>
+
+      <h2>2. Why we collect it</h2>
+      <p>
+        To respond to your enquiry. To onboard you as a client if you choose to work with us. To
+        comply with our regulatory obligations under SEBI, AMFI, IRDAI, PMLA, FEMA and the Income
+        Tax Act.
+      </p>
+
+      <h2>3. Who we share it with</h2>
+      <p>
+        Asset Management Companies, stock brokers, insurers, payment gateways and registrars and
+        transfer agents (CAMS, KFintech) — only as required for the products you choose. Regulators
+        on lawful request. We do not sell your data.
+      </p>
+
+      <h2>4. How long we keep it</h2>
+      <p>
+        Enquiry data: 24 months from last contact. Client records: 8 years minimum after
+        relationship ends, per PMLA and SEBI retention rules.
+      </p>
+
+      <h2>5. Your rights</h2>
+      <p>
+        You may request access, correction, deletion or withdrawal of consent by emailing{' '}
+        <a href="mailto:privacy@asmfinance.in">privacy@asmfinance.in</a>. Some data we are legally
+        required to retain even after a deletion request.
+      </p>
+
+      <h2>6. Security</h2>
+      <p>
+        We store data in encrypted form in India (AWS ap-south-1 / Hyderabad). We follow the SEBI
+        Cybersecurity and Cyber Resilience Framework baseline. Access is restricted to staff who need
+        it.
+      </p>
+
+      <h2>7. Cookies and tracking</h2>
+      <p>
+        This site uses Plausible Analytics, which does not use cookies or collect personal data. We
+        do not use third-party advertising cookies.
+      </p>
+
+      <h2>8. Contact for privacy concerns</h2>
+      <p>
+        Data Protection Officer (interim): <a href="mailto:privacy@asmfinance.in">privacy@asmfinance.in</a>
+      </p>
+    </Prose>
+  </SectionContainer>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, ENV } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string; // OG image path, relative to site root
+  noindex?: boolean;
+}
+const {
+  title,
+  description = 'AMFI-registered wealth advisory from Mathura — mutual funds, insurance, NRI & GIFT City investing for Indian families in India and abroad.',
+  image = '/og-image.png',
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Icons (set generated in STEP 7; favicon.svg is the brand monogram) -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#FBF8F1" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Privacy-first analytics (Plausible only; off unless a domain is configured) -->
+    {
+      ENV.plausibleDomain && (
+        <script
+          is:inline
+          defer
+          data-domain={ENV.plausibleDomain}
+          src="https://plausible.io/js/script.js"
+        />
+      )
+    }
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-forest focus:px-4 focus:py-2 focus:text-cream"
+    >
+      Skip to content
+    </a>
+    <Nav />
+    <main id="main"><slot /></main>
+    <Footer />
+  </body>
+</html>

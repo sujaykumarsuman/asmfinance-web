@@ -1,0 +1,70 @@
+---
+import SectionContainer from '../SectionContainer.astro';
+import Eyebrow from '../Eyebrow.astro';
+import { ANCHORS } from '../../lib/site';
+
+// §7 About the founders. Single duotone composite (decision G2), responsive <picture> (G1).
+---
+
+<SectionContainer id={ANCHORS.about} bg="ivory" class="scroll-mt-20">
+  <div class="grid items-center gap-10 lg:grid-cols-5 lg:gap-14">
+    <!-- Portrait composite: Anjali (left) + Arvind (right), forest duotone on cream -->
+    <figure class="lg:col-span-2">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="/founders/founders-cream-800.webp 800w, /founders/founders-cream-1600.webp 1600w"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+        />
+        <img
+          src="/founders/founders-cream-800.png"
+          srcset="/founders/founders-cream-800.png 800w, /founders/founders-cream-1600.png 1600w"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          width="1600"
+          height="1056"
+          loading="lazy"
+          decoding="async"
+          alt="Anjali Suman and Arvind Kumar Suman, founders of ASM Investments"
+          class="w-full rounded-lg border border-border shadow-card"
+        />
+      </picture>
+    </figure>
+
+    <!-- Copy -->
+    <div class="lg:col-span-3">
+      <Eyebrow>THE PEOPLE BEHIND ASM</Eyebrow>
+      <h2 class="mt-3 text-h2 text-forest">Two generations. One commitment.</h2>
+
+      <div class="mt-6 space-y-4 text-body text-ink-soft">
+        <p>
+          ASM Investments was founded in <strong class="font-semibold text-ink">2007 by Anjali
+          Suman</strong>, who began advising a small circle of families in Mathura through what was
+          then a rapidly evolving Indian mutual fund landscape. In <strong
+            class="font-semibold text-ink">2017, Arvind Kumar Suman</strong> — her husband and an
+          AMFI-registered IFA — expanded the practice into a multi-asset advisory covering equity
+          broking through the Mirae Asset Sharekhan franchise, insurance, and goal-based investing
+          for families.
+        </p>
+        <p>
+          What started as a few client families has grown into a diverse book across Delhi-NCR,
+          Uttar Pradesh, South India, East India, and select high-net-worth and NRI relationships.
+          The thing that has not changed in two decades: every client speaks to the same partner who
+          started the relationship.
+        </p>
+        <p>
+          The next generation — Sujay, a backend engineer — is now building the tech platform that
+          will let ASM serve clients across India and the diaspora at the standard a modern wealth
+          advisory demands.
+        </p>
+      </div>
+
+      <figure class="mt-8 border-l-2 border-gold pl-5">
+        <blockquote class="font-serif text-h3 italic text-gold">
+          “We've never measured ourselves by AUM. We've measured ourselves by how many of our first
+          clients still call us back.”
+        </blockquote>
+        <figcaption class="mt-2 text-small text-slate">— Arvind Kumar Suman</figcaption>
+      </figure>
+    </div>
+  </div>
+</SectionContainer>

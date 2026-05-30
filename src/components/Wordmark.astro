@@ -1,0 +1,24 @@
+---
+// Text-based wordmark lockup (ASM / gold hairline / INVESTMENTS), reproduced in
+// HTML+CSS from brand/logo so it stays crisp, themeable, and asset-free.
+interface Props {
+  variant?: 'forest' | 'cream';
+  href?: string;
+  class?: string;
+}
+const { variant = 'forest', href, class: className = '' } = Astro.props;
+const tone = variant === 'cream' ? 'text-cream' : 'text-forest';
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href}
+  class:list={['inline-flex flex-col items-center leading-none', className]}
+  aria-label={href ? 'ASM Investments — home' : undefined}
+>
+  <span class:list={['font-serif font-semibold tracking-[-0.04em] text-xl sm:text-2xl', tone]}>ASM</span>
+  <span class="my-1 h-px w-10 bg-gold" aria-hidden="true"></span>
+  <span class:list={['font-sans font-semibold uppercase tracking-[0.3em] text-[0.5rem] sm:text-[0.55rem]', tone]}>
+    Investments
+  </span>
+</Tag>
