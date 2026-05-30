@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="600" height="220">
+  <title>ASM Investments — primary wordmark</title>
+  <desc>Full-color wordmark on transparent background. Forest "ASM" with gold hairline and INVESTMENTS subline.</desc>
+
+  <!-- ASM wordmark -->
+  <text x="300" y="130"
+        font-family="Fraunces, 'Source Serif 4', Georgia, serif"
+        font-weight="600"
+        font-size="140"
+        fill="#1F5132"
+        text-anchor="middle"
+        letter-spacing="-4">ASM</text>
+
+  <!-- Gold hairline divider -->
+  <line x1="252" y1="158" x2="348" y2="158" stroke="#C9A227" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- Supporting text -->
+  <text x="300" y="190"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="600"
+        font-size="18"
+        fill="#4B5563"
+        text-anchor="middle"
+        letter-spacing="5.76">INVESTMENTS</text>
+</svg>

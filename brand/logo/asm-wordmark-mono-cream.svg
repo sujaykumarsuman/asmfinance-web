@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="600" height="220">
+  <title>ASM Investments — mono cream wordmark</title>
+  <desc>Single-tone wordmark in cream for forest-green backgrounds (NRI section, dark footers).</desc>
+
+  <text x="300" y="130"
+        font-family="Fraunces, 'Source Serif 4', Georgia, serif"
+        font-weight="600"
+        font-size="140"
+        fill="#FBF8F1"
+        text-anchor="middle"
+        letter-spacing="-4">ASM</text>
+
+  <line x1="252" y1="158" x2="348" y2="158" stroke="#C9A227" stroke-width="1.6" stroke-linecap="round"/>
+
+  <text x="300" y="190"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="600"
+        font-size="18"
+        fill="#FBF8F1"
+        text-anchor="middle"
+        letter-spacing="5.76">INVESTMENTS</text>
+</svg>
