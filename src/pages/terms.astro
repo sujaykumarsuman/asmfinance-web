@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import Prose from '../components/Prose.astro';
+
+// Lightweight terms skeleton (docs/02-content-spec.md §Terms — not provided verbatim).
+// TODO(human): replace with a lawyer-drafted version before launch.
+---
+
+<BaseLayout
+  title="Terms of Use"
+  description="Terms governing the use of the ASM Investments website."
+>
+  <SectionContainer bg="cream">
+    <Prose>
+      <h1>Terms of Use</h1>
+      <p class="!mt-2 text-small text-muted">Last updated: 31 May 2026 · Draft pending legal review</p>
+
+      <p>
+        These terms govern your use of the ASM Investments website at asmfinance.in (the “site”). By
+        using the site, you agree to them. If you do not agree, please do not use the site.
+      </p>
+
+      <h2>1. Nature of this site</h2>
+      <p>
+        This site is informational. It describes who we are and the services we offer as an
+        AMFI-registered mutual fund distributor and IRDAI point-of-sale person. Nothing on the site
+        is an offer, solicitation, or recommendation to buy or sell any security or financial
+        product.
+      </p>
+
+      <h2>2. No investment advice through the site</h2>
+      <p>
+        We do not provide investment, tax, legal or financial advice through this site. Any
+        engagement begins only after a direct conversation, suitability assessment, and the
+        applicable onboarding and documentation. Investments in securities and mutual funds are
+        subject to market risks; please read all scheme-related documents carefully.
+      </p>
+
+      <h2>3. No warranties</h2>
+      <p>
+        The site is provided “as is” without warranties of any kind. While we aim to keep
+        information accurate and current, we do not guarantee that it is complete, error-free, or
+        up to date, and we are not liable for any loss arising from reliance on it.
+      </p>
+
+      <h2>4. External links</h2>
+      <p>
+        The site may link to third-party websites and tools (for example, a calendar booking
+        service). We are not responsible for their content, availability, or privacy practices.
+      </p>
+
+      <h2>5. Intellectual property</h2>
+      <p>
+        The ASM Investments name, wordmark, content, and design are our property or used with
+        permission. You may not reproduce them without our written consent.
+      </p>
+
+      <h2>6. Governing law and jurisdiction</h2>
+      <p>
+        These terms are governed by the laws of India. The courts at Mathura, Uttar Pradesh have
+        exclusive jurisdiction over any dispute relating to the site.
+      </p>
+
+      <h2>7. Changes to these terms</h2>
+      <p>We may update these terms from time to time. The “last updated” date above reflects the latest version.</p>
+
+      <h2>8. Contact</h2>
+      <p>
+        Questions about these terms? Email <a href="mailto:hello@asmfinance.in">hello@asmfinance.in</a>.
+      </p>
+    </Prose>
+  </SectionContainer>
+</BaseLayout>

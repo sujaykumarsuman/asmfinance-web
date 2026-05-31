@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import WhatWeDo from '../components/sections/WhatWeDo.astro';
+import ContactBand from '../components/sections/ContactBand.astro';
+import ServiceTiers from '../components/sections/ServiceTiers.astro';
+import NriWedge from '../components/sections/NriWedge.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import AboutFounders from '../components/sections/AboutFounders.astro';
+import Faq from '../components/sections/Faq.astro';
+import PreFooterCta from '../components/sections/PreFooterCta.astro';
+
+// Section order is deliberate — do not rearrange (docs/02-content-spec.md §Section order).
+---
+
+<BaseLayout>
+  <Hero />
+  <WhatWeDo />
+  <ContactBand />
+  <ServiceTiers />
+  <NriWedge />
+  <HowItWorks />
+  <AboutFounders />
+  <Faq />
+  <PreFooterCta />
+</BaseLayout>

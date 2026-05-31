@@ -1,0 +1,80 @@
+/* Self-hosted variable fonts (weight axis only = smallest woff2; italic for pull-quotes).
+   These @font-face declarations define "Inter Variable" / "Fraunces Variable",
+   which tailwind.config.js references in fontFamily.{sans,serif}. */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/fraunces/wght-italic.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Palette as CSS variables for the rare non-utility context (inline SVG fills,
+     duotone fallbacks). Tailwind tokens remain the primary way to use color. */
+  :root {
+    --cream: #fbf8f1;
+    --ivory: #f5efe3;
+    --paper: #fdfbf6;
+    --forest: #1f5132;
+    --forest-dark: #163a23;
+    --emerald: #2d6a4f;
+    --sage: #95d5b2;
+    --gold: #c9a227;
+    --ink: #1a1a1a;
+    --slate: #4b5563;
+    --border: #e5ddd0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset in-page anchor jumps so the sticky nav doesn't cover headings. */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans text-body antialiased;
+  }
+
+  /* Headings default to Fraunces; h4 stays Inter per the design system. */
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-ink;
+  }
+
+  /* Tabular figures for any portfolio/number context. */
+  .nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Visible, AA-compliant focus ring on interactive elements only.
+     box-shadow hugs each element's own border-radius. */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid transparent; /* visible in forced-colors / Windows high-contrast */
+    outline-offset: 2px;
+    box-shadow: theme('boxShadow.focus');
+  }
+
+  ::selection {
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  /* Respect users who prefer reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

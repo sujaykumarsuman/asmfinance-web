@@ -1,0 +1,30 @@
+---
+import Wordmark from './Wordmark.astro';
+import Button from './Button.astro';
+import { NAV_LINKS, ANCHORS } from '../lib/site';
+// Sticky top nav. Mobile = wordmark + booking CTA (zero JS, no menu toggle);
+// desktop (md+) adds the section links. Section links are also in the footer.
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-border/80 bg-cream/90 backdrop-blur supports-[backdrop-filter]:bg-cream/75"
+>
+  <div class="mx-auto flex h-16 w-full max-w-content items-center justify-between px-6 md:px-12 lg:px-20">
+    <Wordmark href="/" />
+    <div class="flex items-center gap-4 sm:gap-6">
+      <nav aria-label="Primary" class="hidden md:flex md:items-center md:gap-8">
+        {
+          NAV_LINKS.map((l) => (
+            <a
+              href={l.href}
+              class="text-small font-medium text-ink-soft transition-colors hover:text-forest"
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+      <Button variant="primary" href={`#${ANCHORS.contact}`} size="sm">Book a call</Button>
+    </div>
+  </div>
+</header>

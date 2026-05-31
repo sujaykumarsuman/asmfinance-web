@@ -1,0 +1,40 @@
+---
+// Max-width wrapper with consistent gutters + vertical rhythm.
+// Full-bleed background on the outer element; content capped at 1200px.
+interface Props {
+  id?: string;
+  bg?: 'cream' | 'ivory' | 'paper' | 'forest' | 'transparent';
+  spacing?: 'default' | 'tight' | 'none';
+  class?: string;
+  innerClass?: string;
+  as?: 'section' | 'div' | 'header' | 'footer';
+}
+const {
+  id,
+  bg = 'transparent',
+  spacing = 'default',
+  class: className = '',
+  innerClass = '',
+  as = 'section',
+} = Astro.props;
+const Tag = as;
+
+const bgMap: Record<string, string> = {
+  cream: 'bg-cream',
+  ivory: 'bg-ivory',
+  paper: 'bg-paper',
+  forest: 'bg-forest text-cream',
+  transparent: '',
+};
+const spaceMap: Record<string, string> = {
+  default: 'py-20 md:py-28 lg:py-32',
+  tight: 'py-12 md:py-16',
+  none: '',
+};
+---
+
+<Tag id={id} class:list={[bgMap[bg], className]}>
+  <div class:list={['mx-auto w-full max-w-content px-6 md:px-12 lg:px-20', spaceMap[spacing], innerClass]}>
+    <slot />
+  </div>
+</Tag>

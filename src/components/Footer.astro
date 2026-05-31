@@ -1,0 +1,92 @@
+---
+import { Icon } from 'astro-icon/components';
+import Wordmark from './Wordmark.astro';
+import { SITE, NAV_LINKS, ANCHORS, whatsappLink } from '../lib/site';
+
+// Footer — 4 columns + mandatory SEBI disclaimer bar (docs/02-content-spec.md §10).
+const wa = whatsappLink('Hi ASM Investments, I have a question.');
+const year = 2026; // static build; site is rebuilt on deploy
+
+const navigate = [...NAV_LINKS, { label: 'Book a call', href: `#${ANCHORS.contact}` }];
+const legal = [
+  { label: 'Privacy Notice', href: '/privacy' },
+  { label: 'Terms of Use', href: '/terms' },
+  { label: 'Disclosures', href: `#${ANCHORS.disclosures}` },
+];
+const linkCls = 'text-cream/90 transition-colors hover:text-gold';
+---
+
+<footer class="bg-forest text-cream">
+  <div class="mx-auto w-full max-w-content px-6 py-16 md:px-12 lg:px-20">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div>
+        <Wordmark variant="cream" href="/" />
+        <p class="mt-4 max-w-xs text-small text-cream/80">{SITE.tagline}</p>
+        <p class="mt-4 text-small text-cream/80">AMFI ARN: {SITE.arn}</p>
+        <p class="text-small text-cream/80">{SITE.credentials}</p>
+      </div>
+
+      <!-- Navigate -->
+      <nav aria-label="Footer">
+        <h2 class="text-caps uppercase text-gold">Navigate</h2>
+        <ul class="mt-4 space-y-2 text-small">
+          {navigate.map((l) => (
+            <li><a href={l.href} class={linkCls}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h2 class="text-caps uppercase text-gold">Contact</h2>
+        <ul class="mt-4 space-y-2 text-small text-cream/90">
+          <li class="flex items-start gap-2">
+            <Icon name="lucide:map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
+            <span>{SITE.office}</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icon name="lucide:mail" class="h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
+            <a href={`mailto:${SITE.email}`} class={linkCls}>{SITE.email}</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icon name="lucide:phone" class="h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
+            <span>{SITE.phoneDisplay}</span>
+          </li>
+          {wa && (
+            <li class="flex items-center gap-2">
+              <Icon name="lucide:message-circle" class="h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
+              <a href={wa} class={linkCls} rel="noopener">WhatsApp us</a>
+            </li>
+          )}
+          <li class="pt-1 text-cream/70">Office hours: {SITE.officeHours}</li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h2 class="text-caps uppercase text-gold">Legal</h2>
+        <ul class="mt-4 space-y-2 text-small">
+          {legal.map((l) => (
+            <li><a href={l.href} class={linkCls}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mandatory SEBI disclosure bar (verbatim, docs/02-content-spec.md §10) -->
+  <div id={ANCHORS.disclosures} class="scroll-mt-20 border-t border-cream/15 bg-forest-dark">
+    <div class="mx-auto w-full max-w-content px-6 py-8 md:px-12 lg:px-20">
+      <p class="text-small leading-relaxed text-cream/70">
+        Mutual fund investments are subject to market risks. Read all scheme-related documents
+        carefully. ASM Investments is an AMFI-registered Mutual Fund Distributor (ARN: {SITE.arn}).
+        Distribution of mutual funds and other financial products is on a commission basis as
+        disclosed at the time of investment. ASM Investments does not provide investment advice on a
+        fee basis except under SEBI Registered Investment Adviser registration (in progress); until
+        that registration is granted, no fee-based advice is offered.
+      </p>
+      <p class="mt-4 text-small text-cream/60">© {year} ASM Investments. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

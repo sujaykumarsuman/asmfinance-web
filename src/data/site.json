@@ -1,0 +1,38 @@
+{
+  "brand": {
+    "name": "ASM Investments",
+    "tagline": "Wealth advisory for Indian families, wherever they live.",
+    "arn": "103139",
+    "credentials": "NISM V-A Certified · IRDAI POSP"
+  },
+  "contact": {
+    "email": "hello@asmfinance.in",
+    "privacyEmail": "privacy@asmfinance.in",
+    "phoneDisplay": "+91 XX XXX XXXXX",
+    "office": "Mathura, Uttar Pradesh, India",
+    "officeHours": "Mon–Sat, 10:00–18:00 IST"
+  },
+  "cta": {
+    "primary": "Book a free 30-min call",
+    "secondary": "Send a message"
+  },
+  "form": {
+    "consentText": "I consent to ASM Investments contacting me about this enquiry. I have read the Privacy Notice.",
+    "countries": [
+      { "value": "IN", "label": "India" },
+      { "value": "AE", "label": "UAE" },
+      { "value": "US", "label": "USA" },
+      { "value": "CA", "label": "Canada" },
+      { "value": "GB", "label": "UK" },
+      { "value": "SG", "label": "Singapore" },
+      { "value": "OTHER", "label": "Other" }
+    ],
+    "segments": [
+      { "key": "exploring", "label": "Just exploring", "segment": "exploring" },
+      { "key": "sip", "label": "Mutual fund / SIP help", "segment": "core" },
+      { "key": "plan", "label": "A full plan", "segment": "premium" },
+      { "key": "nri", "label": "NRI services", "segment": "nri" },
+      { "key": "insurance", "label": "Insurance review", "segment": "premium" }
+    ]
+  }
+}
