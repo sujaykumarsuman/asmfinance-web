@@ -1,6 +1,6 @@
 # asmfinance-web
 
-Public landing site for **ASM Investments** — `https://asmfinance.in` (custom domain on GitHub Pages).
+Public landing site for **ASM Investments** — `https://asmfinance.tech` (custom domain on GitHub Pages).
 
 Sister repo: [`asmfinance`](../asmfinance) (Go API + admin, at `api.asmfinance.tech`). The lead form POSTs to `https://api.asmfinance.tech/v1/leads` (CORS-allowed).
 
@@ -84,19 +84,19 @@ Push to `main` → GitHub Actions builds and deploys to Pages (`.github/workflow
 
 Verify after deploy:
 ```bash
-curl -I https://asmfinance.in           # expect HTTP/2 200, Server: GitHub.com
-curl https://asmfinance.in/CNAME        # expect: asmfinance.in
-pnpm dlx lighthouse https://asmfinance.in --view   # target ≥ 95 across all four
+curl -I https://asmfinance.tech           # expect HTTP/2 200, Server: GitHub.com
+curl https://asmfinance.tech/CNAME        # expect: asmfinance.tech
+pnpm dlx lighthouse https://asmfinance.tech --view   # target ≥ 95 across all four
 ```
 
 ## Before going live (human action)
 
-- [ ] Buy `asmfinance.in`; set DNS per docs/05 (4× A, 4× AAAA, `www` CNAME).
-- [ ] Repo → Settings → Pages: source **GitHub Actions**, custom domain `asmfinance.in`, enforce HTTPS.
+- [ ] Buy `asmfinance.tech`; set DNS per docs/05 (4× A, 4× AAAA, `www` CNAME).
+- [ ] Repo → Settings → Pages: source **GitHub Actions**, custom domain `asmfinance.tech`, enforce HTTPS.
 - [ ] Ensure the API still accepts the lead payload without a Turnstile token (Turnstile was removed; the honeypot remains). Re-add a bot challenge later if spam appears.
 - [ ] Set `PUBLIC_CALENDLY_URL` and `PUBLIC_PLAUSIBLE_DOMAIN`; set the real phone + AMFI ARN in `src/data/site.json` (the phone also builds the WhatsApp links).
 - [ ] Legal review of `/privacy` and `/terms`.
 - [ ] Replace placeholder favicons + OG image with finals.
-- [ ] Ensure the API allows CORS from `https://asmfinance.in` (per ADR-003).
+- [ ] Ensure the API allows CORS from `https://asmfinance.tech` (per ADR-003).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for conventions.

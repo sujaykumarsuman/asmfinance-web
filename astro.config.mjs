@@ -6,7 +6,7 @@ import icon from 'astro-icon';
 // Static landing site for ASM Investments — see docs/05-deployment.md and docs/adr/.
 // No SSR: everything is pre-rendered to a static `dist/` for GitHub Pages.
 export default defineConfig({
-  site: 'https://asmfinance.in',
+  site: 'https://asmfinance.tech',
   build: {
     // /privacy -> /privacy/index.html, which GitHub Pages serves cleanly.
     format: 'directory',
