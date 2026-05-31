@@ -2,44 +2,46 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 
 /**
  * Design tokens — single source of truth is docs/03-design-system.md.
- * Every value below is mapped 1:1 from that doc. Components must use these
- * tokens (e.g. `bg-forest`, `text-h2`) and never hardcode hex.
+ * Components must use these tokens (e.g. `bg-forest`, `text-h2`), never hardcoded hex.
  *
- * Note: naming single-tone colors `slate`/`emerald`/`success` intentionally
- * REPLACES Tailwind's built-in numeric scales for those names (e.g. there is
- * no `bg-emerald-500`). This is per the design system, which uses one tone each.
+ * Dark mode (class strategy): the neutral tokens below resolve to CSS variables
+ * (`--c-*`, defined in global.css) that flip in `.dark`. So `text-ink`, `text-slate`,
+ * `bg-ivory/paper`, `border-border`, `text-emerald`, `text-error` adapt automatically;
+ * fixed brand tokens (cream, forest, gold, sage, night) stay constant by design.
  *
  * @type {import('tailwindcss').Config}
  */
 export default {
+  darkMode: 'class',
   content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
   theme: {
     extend: {
       colors: {
-        // Surface (creams)
+        // Surface — cream is fixed (dual use: light page bg AND text on forest)
         cream: '#FBF8F1',
-        ivory: '#F5EFE3',
-        paper: '#FDFBF6',
+        ivory: 'rgb(var(--c-ivory) / <alpha-value>)',
+        paper: 'rgb(var(--c-paper) / <alpha-value>)',
+        night: '#0F1714', // dark-mode page background
         // Primary (forest greens)
         forest: '#1F5132',
         'forest-dark': '#163A23',
-        emerald: '#2D6A4F',
+        emerald: 'rgb(var(--c-emerald) / <alpha-value>)', // accents/links; -> sage in dark
         sage: '#95D5B2',
         // Accent
         gold: '#C9A227',
         'gold-soft': '#E2C766',
         clay: '#C26E3B',
         // Text
-        ink: '#1A1A1A',
-        'ink-soft': '#2E2E2E',
-        slate: '#4B5563',
-        muted: '#6B7280',
+        ink: 'rgb(var(--c-ink) / <alpha-value>)',
+        'ink-soft': 'rgb(var(--c-ink-soft) / <alpha-value>)',
+        slate: 'rgb(var(--c-slate) / <alpha-value>)',
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',
         // Functional
-        border: '#E5DDD0',
-        'border-strong': '#C7B89E',
+        border: 'rgb(var(--c-border) / <alpha-value>)',
+        'border-strong': 'rgb(var(--c-border-strong) / <alpha-value>)',
         success: '#2D6A4F',
         warn: '#B7791F',
-        error: '#9B2C2C',
+        error: 'rgb(var(--c-error) / <alpha-value>)',
       },
       fontFamily: {
         serif: ['"Fraunces Variable"', ...defaultTheme.fontFamily.serif],

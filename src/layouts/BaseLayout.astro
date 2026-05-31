@@ -27,6 +27,17 @@ const ogImage = new URL(image, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Apply the saved/system theme before first paint (no flash).
+      // Persistence uses a `theme` cookie — never localStorage/sessionStorage.
+      (function () {
+        try {
+          var m = document.cookie.match(/(?:^|;\s*)theme=(dark|light)/);
+          var t = m ? m[1] : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          if (t === 'dark') document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -37,7 +48,8 @@ const ogImage = new URL(image, Astro.site);
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#FBF8F1" />
+    <meta name="theme-color" content="#FBF8F1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1714" media="(prefers-color-scheme: dark)" />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
@@ -73,5 +85,27 @@ const ogImage = new URL(image, Astro.site);
     <Nav />
     <main id="main"><slot /></main>
     <Footer />
+    <script is:inline>
+      // Theme toggle: flip `.dark` and persist via a functional `theme` cookie.
+      (function () {
+        function reflect(isDark) {
+          document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+            b.setAttribute('aria-pressed', String(isDark));
+          });
+        }
+        function set(t) {
+          var isDark = t === 'dark';
+          document.documentElement.classList.toggle('dark', isDark);
+          document.cookie = 'theme=' + t + ';path=/;max-age=31536000;samesite=lax';
+          reflect(isDark);
+        }
+        reflect(document.documentElement.classList.contains('dark'));
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest ? e.target.closest('[data-theme-toggle]') : null;
+          if (!btn) return;
+          set(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+        });
+      })();
+    </script>
   </body>
 </html>
