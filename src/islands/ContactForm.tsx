@@ -1,5 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useEffect, useId, useState } from 'react';
 import { Send, Loader2, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
 import {
   COUNTRY_OPTIONS,
@@ -15,18 +14,17 @@ import {
 
 export interface ContactFormProps {
   apiBase: string;
-  turnstileSiteKey: string;
   email: string;
   whatsappHref?: string | null;
   privacyHref?: string;
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
-type FieldKey = 'fullName' | 'contact' | 'country' | 'segment' | 'consent' | 'turnstile';
+type FieldKey = 'fullName' | 'contact' | 'country' | 'segment' | 'consent';
 type Errors = Partial<Record<FieldKey, string>>;
 
 const inputCls =
-  'w-full rounded-sm border border-border-strong bg-cream px-4 py-3 text-body text-ink placeholder:text-muted transition-colors focus:border-forest';
+  'w-full rounded-sm border border-border-strong bg-cream px-4 py-3 text-body text-ink placeholder:text-muted transition-colors focus:border-forest dark:bg-night dark:focus:border-sage';
 const labelCls = 'mb-1.5 block text-caps uppercase text-gold';
 // Consent sentence is editable in src/data/site.json; the Privacy Notice link is
 // injected where the phrase "Privacy Notice" appears.
@@ -34,7 +32,6 @@ const CONSENT_PARTS = CONSENT_TEXT.split('Privacy Notice');
 
 export default function ContactForm({
   apiBase,
-  turnstileSiteKey,
   email,
   whatsappHref,
   privacyHref = '/privacy',
@@ -47,12 +44,10 @@ export default function ContactForm({
   const [message, setMessage] = useState('');
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState(''); // honeypot — real users leave empty
-  const [token, setToken] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorKind, setErrorKind] = useState<string | null>(null);
   const [errors, setErrors] = useState<Errors>({});
 
-  const turnstileRef = useRef<TurnstileInstance>(null);
   const uid = useId();
   const fid = (s: string) => `${uid}-${s}`;
   const err = (k: FieldKey) => (errors[k] ? fid(`${k}-err`) : undefined);
@@ -74,7 +69,6 @@ export default function ContactForm({
     if (!country) e.country = 'Please select your country or region.';
     if (!segmentKey) e.segment = 'Please tell us what you’re looking for.';
     if (!consent) e.consent = 'Please tick the consent box so we can reply.';
-    if (turnstileSiteKey && !token) e.turnstile = 'Please complete the anti-spam check.';
     return e;
   }
 
@@ -100,7 +94,6 @@ export default function ContactForm({
       country: country as CountryCode,
       segment,
       consent: true,
-      turnstile_token: token,
       ...(emailVal.trim() ? { email: emailVal.trim() } : {}),
       ...(whatsapp.trim() ? { whatsapp: whatsapp.trim() } : {}),
       ...(message.trim() ? { message: message.trim().slice(0, 1500) } : {}),
@@ -114,19 +107,16 @@ export default function ContactForm({
     }
     setErrorKind(result.kind);
     setStatus('error');
-    // Tokens are single-use; reset the widget so the user can retry.
-    turnstileRef.current?.reset();
-    setToken('');
   }
 
   if (status === 'success') {
     return (
       <div
         role="status"
-        className="flex h-full flex-col items-start justify-center gap-3 rounded-lg border border-border bg-cream p-8"
+        className="flex h-full flex-col items-start justify-center gap-3 rounded-lg border border-border bg-cream p-8 dark:bg-night"
       >
         <CheckCircle2 className="h-9 w-9 text-emerald" aria-hidden="true" />
-        <h3 className="text-h3 text-forest">Thank you — message received.</h3>
+        <h3 className="text-h3 text-forest dark:text-sage">Thank you — message received.</h3>
         <p className="text-body text-slate">
           We've got your enquiry and will reply within one business day. For anything urgent, reach
           us on WhatsApp.
@@ -135,7 +125,7 @@ export default function ContactForm({
           <a
             href={whatsappHref}
             rel="noopener"
-            className="mt-1 inline-flex items-center gap-2 font-medium text-emerald underline underline-offset-4 hover:text-forest"
+            className="mt-1 inline-flex items-center gap-2 font-medium text-emerald underline underline-offset-4 hover:text-forest dark:hover:text-cream"
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
             Message us on WhatsApp
@@ -337,7 +327,7 @@ export default function ContactForm({
             required
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
-            className="mt-1 h-5 w-5 shrink-0 rounded-sm border-border-strong text-forest accent-forest"
+            className="mt-1 h-5 w-5 shrink-0 rounded-sm border-border-strong text-forest accent-forest dark:accent-sage"
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={err('consent')}
           />
@@ -345,7 +335,7 @@ export default function ContactForm({
             {CONSENT_PARTS[0]}
             <a
               href={privacyHref}
-              className="font-medium text-emerald underline underline-offset-2 hover:text-forest"
+              className="font-medium text-emerald underline underline-offset-2 hover:text-forest dark:hover:text-cream"
             >
               Privacy Notice
             </a>
@@ -358,25 +348,6 @@ export default function ContactForm({
           </p>
         )}
       </div>
-
-      {/* Turnstile anti-spam (invisible/managed). Renders only when a key is set. */}
-      {turnstileSiteKey && (
-        <div>
-          <Turnstile
-            ref={turnstileRef}
-            siteKey={turnstileSiteKey}
-            options={{ theme: 'light', size: 'flexible' }}
-            onSuccess={setToken}
-            onError={() => setToken('')}
-            onExpire={() => setToken('')}
-          />
-          {errors.turnstile && (
-            <p id={err('turnstile')} className="mt-1 text-small text-error">
-              {errors.turnstile}
-            </p>
-          )}
-        </div>
-      )}
 
       {/* Error banner */}
       {status === 'error' && errorKind && (
