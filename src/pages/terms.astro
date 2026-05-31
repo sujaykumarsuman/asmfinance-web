@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Prose from '../components/Prose.astro';
+import { SITE } from '../lib/site';
 
 // Lightweight terms skeleton (docs/02-content-spec.md §Terms — not provided verbatim).
 // TODO(human): replace with a lawyer-drafted version before launch.
@@ -17,7 +18,7 @@ import Prose from '../components/Prose.astro';
       <p class="!mt-2 text-small text-muted">Last updated: 31 May 2026 · Draft pending legal review</p>
 
       <p>
-        These terms govern your use of the ASM Investments website at asmfinance.in (the “site”). By
+        These terms govern your use of the ASM Investments website at asmfinance.tech (the “site”). By
         using the site, you agree to them. If you do not agree, please do not use the site.
       </p>
 
@@ -67,7 +68,7 @@ import Prose from '../components/Prose.astro';
 
       <h2>8. Contact</h2>
       <p>
-        Questions about these terms? Email <a href="mailto:hello@asmfinance.in">hello@asmfinance.in</a>.
+        Questions about these terms? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
       </p>
     </Prose>
   </SectionContainer>

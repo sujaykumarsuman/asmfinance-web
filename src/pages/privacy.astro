@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Prose from '../components/Prose.astro';
+import { SITE } from '../lib/site';
 
 // DPDP-aligned privacy notice — boilerplate verbatim from docs/02-content-spec.md §Privacy.
 // TODO(human): final review by a CA / lawyer before launch; confirm "Last updated" date.
@@ -53,7 +54,7 @@ import Prose from '../components/Prose.astro';
       <h2>5. Your rights</h2>
       <p>
         You may request access, correction, deletion or withdrawal of consent by emailing{' '}
-        <a href="mailto:privacy@asmfinance.in">privacy@asmfinance.in</a>. Some data we are legally
+        <a href={`mailto:${SITE.privacyEmail}`}>{SITE.privacyEmail}</a>. Some data we are legally
         required to retain even after a deletion request.
       </p>
 
@@ -73,7 +74,7 @@ import Prose from '../components/Prose.astro';
 
       <h2>8. Contact for privacy concerns</h2>
       <p>
-        Data Protection Officer (interim): <a href="mailto:privacy@asmfinance.in">privacy@asmfinance.in</a>
+        Data Protection Officer (interim): <a href={`mailto:${SITE.privacyEmail}`}>{SITE.privacyEmail}</a>
       </p>
     </Prose>
   </SectionContainer>
