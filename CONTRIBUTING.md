@@ -16,7 +16,7 @@ pnpm dev
 Common business data lives in **`src/data/site.json`** — edit it and redeploy (push to `main`; CI rebuilds). No component changes required:
 
 - `brand` — name, tagline, **AMFI ARN**, credentials line
-- `contact` — **email**, privacy email, **phone**, office, office hours
+- `contact` — **email**, privacy email, **phone** (also builds the WhatsApp links — include the country code), office, office hours
 - `cta` — the two button labels
 - `form` — the consent sentence, the **Country / Region** list, and the **"I'm looking for"** list
 
