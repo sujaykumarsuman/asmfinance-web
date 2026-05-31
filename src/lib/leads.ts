@@ -21,7 +21,9 @@ export interface LeadPayload {
   segment: Segment;
   message?: string;
   consent: true;
-  turnstile_token: string;
+  /** Optional: Cloudflare Turnstile was removed from the site. Kept optional for
+   *  API back-compat; the API should no longer require it. */
+  turnstile_token?: string;
 }
 
 /** Consent copy — edit in src/data/site.json (form.consentText). */

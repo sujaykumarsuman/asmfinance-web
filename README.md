@@ -31,7 +31,9 @@ pnpm preview            # serve the production build locally
 pnpm check              # type-check only
 ```
 
-Copy `.env.example` → `.env.local` for local env (the file ships with Cloudflare's Turnstile **test** key, which always passes).
+Prefer `make`? Run `make help` to list targets — notably **`make preview`** (production build, then serve it locally to preview), plus `make dev`, `make build`, `make check`, and `make clean`.
+
+Copy `.env.example` → `.env.local` for local env.
 
 ## Environment variables
 
@@ -40,9 +42,7 @@ All are build-time `PUBLIC_*` vars, inlined by Astro. None are secrets (the site
 | Var | Purpose | Where set |
 |---|---|---|
 | `PUBLIC_API_BASE` | Lead API base; form POSTs to `${PUBLIC_API_BASE}/v1/leads` | `.env.local` / workflow |
-| `PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key (anti-spam) | `.env.local` / **CI secret** |
 | `PUBLIC_CALENDLY_URL` | Booking embed URL; blank = hide calendar, show form/WhatsApp | `.env.local` / workflow |
-| `PUBLIC_WHATSAPP_NUMBER` | Digits only (e.g. `9199...`); blank = hide WhatsApp links | `.env.local` / workflow |
 | `PUBLIC_PLAUSIBLE_DOMAIN` | Plausible domain; blank = no analytics script | `.env.local` / workflow |
 
 ## Project structure
@@ -93,8 +93,8 @@ pnpm dlx lighthouse https://asmfinance.in --view   # target ≥ 95 across all fo
 
 - [ ] Buy `asmfinance.in`; set DNS per docs/05 (4× A, 4× AAAA, `www` CNAME).
 - [ ] Repo → Settings → Pages: source **GitHub Actions**, custom domain `asmfinance.in`, enforce HTTPS.
-- [ ] Add CI secret `PUBLIC_TURNSTILE_SITE_KEY` (real Cloudflare key); set the secret key in the API.
-- [ ] Set `PUBLIC_CALENDLY_URL`, `PUBLIC_WHATSAPP_NUMBER`, confirm phone + AMFI ARN, `PUBLIC_PLAUSIBLE_DOMAIN`.
+- [ ] Ensure the API still accepts the lead payload without a Turnstile token (Turnstile was removed; the honeypot remains). Re-add a bot challenge later if spam appears.
+- [ ] Set `PUBLIC_CALENDLY_URL` and `PUBLIC_PLAUSIBLE_DOMAIN`; set the real phone + AMFI ARN in `src/data/site.json` (the phone also builds the WhatsApp links).
 - [ ] Legal review of `/privacy` and `/terms`.
 - [ ] Replace placeholder favicons + OG image with finals.
 - [ ] Ensure the API allows CORS from `https://asmfinance.in` (per ADR-003).

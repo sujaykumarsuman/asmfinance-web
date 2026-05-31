@@ -20,7 +20,7 @@ const trust = [
     <!-- Copy -->
     <div>
       <Eyebrow>AMFI-REGISTERED · MATHURA · EST. 2007</Eyebrow>
-      <h1 class="mt-3 text-display text-forest text-balance">
+      <h1 class="mt-3 text-display text-forest text-balance dark:text-sage">
         Wealth advisory for Indian families, wherever they live.
       </h1>
       <p class="mt-6 max-w-xl text-lead text-slate text-pretty">
@@ -33,26 +33,25 @@ const trust = [
       </div>
     </div>
 
-    <!-- Supporting visual: founders cut-out, blended large into the cream (no frame/bg).
-         The bottom mask fades the torso crop softly into the page.
-         loading="lazy" => loads on desktop (in viewport) but skipped on mobile (display:none). -->
-    <div class="hidden lg:block">
+    <!-- Supporting visual: founders cut-out, blended into the cream (no frame/bg),
+         masked so the torso crop fades softly. Below the copy on mobile, beside it on desktop. -->
+    <div>
       <picture>
         <source
           type="image/webp"
           srcset="/founders/founders-transparent-800.webp 800w, /founders/founders-transparent-1600.webp 1600w"
-          sizes="(min-width: 1024px) 46vw, 0px"
+          sizes="(min-width: 1024px) 46vw, (min-width: 640px) 28rem, 90vw"
         />
         <img
           src="/founders/founders-transparent-800.png"
           srcset="/founders/founders-transparent-800.png 800w, /founders/founders-transparent-1600.png 1600w"
-          sizes="(min-width: 1024px) 46vw, 0px"
+          sizes="(min-width: 1024px) 46vw, (min-width: 640px) 28rem, 90vw"
           width="1600"
           height="1056"
           loading="lazy"
           decoding="async"
           alt="Anjali Suman and Arvind Kumar Suman, founders of ASM Investments"
-          class="ml-auto w-full max-w-2xl select-none [mask-image:linear-gradient(to_bottom,black_76%,transparent_99%)] [-webkit-mask-image:linear-gradient(to_bottom,black_76%,transparent_99%)]"
+          class="mx-auto w-full max-w-md select-none lg:ml-auto lg:max-w-2xl [mask-image:linear-gradient(to_bottom,black_76%,transparent_99%)] [-webkit-mask-image:linear-gradient(to_bottom,black_76%,transparent_99%)]"
         />
       </picture>
     </div>

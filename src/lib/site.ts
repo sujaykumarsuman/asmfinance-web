@@ -51,15 +51,18 @@ export const NAV_LINKS = [
  */
 export const ENV = {
   apiBase: import.meta.env.PUBLIC_API_BASE ?? 'https://api.asmfinance.tech',
-  turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '',
   calendlyUrl: import.meta.env.PUBLIC_CALENDLY_URL ?? '',
-  whatsappNumber: import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '',
   plausibleDomain: import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN ?? '',
 } as const;
 
-/** Build a wa.me link, or null when no number is configured. */
+/**
+ * Build a wa.me link from the contact phone in site.json. The phone is stripped
+ * to digits (so it must include the country code, e.g. "+91 9045-7489-71" ->
+ * "919045748971"). Returns null while the number is still a placeholder.
+ */
 export function whatsappLink(text?: string): string | null {
-  if (!ENV.whatsappNumber) return null;
+  const digits = SITE.phoneDisplay.replace(/\D/g, '');
+  if (digits.length < 10) return null; // e.g. the "+91 XX XXX XXXXX" placeholder
   const q = text ? `?text=${encodeURIComponent(text)}` : '';
-  return `https://wa.me/${ENV.whatsappNumber}${q}`;
+  return `https://wa.me/${digits}${q}`;
 }

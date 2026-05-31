@@ -7,7 +7,7 @@ interface Props {
   class?: string;
 }
 const { variant = 'forest', href, class: className = '' } = Astro.props;
-const tone = variant === 'cream' ? 'text-cream' : 'text-forest';
+const tone = variant === 'cream' ? 'text-cream' : 'text-forest dark:text-cream';
 const Tag = href ? 'a' : 'span';
 ---
 

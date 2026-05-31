@@ -10,35 +10,57 @@
 @tailwind utilities;
 
 @layer base {
-  /* Palette as CSS variables for the rare non-utility context (inline SVG fills,
-     duotone fallbacks). Tailwind tokens remain the primary way to use color. */
+  /* Theme-flipping color channels (space-separated RGB for Tailwind's alpha support).
+     tailwind.config.js maps ink/slate/border/ivory/paper/emerald/error to these. */
   :root {
+    color-scheme: light;
+    --c-ivory: 245 239 227;
+    --c-paper: 253 251 246;
+    --c-emerald: 45 106 79;
+    --c-ink: 26 26 26;
+    --c-ink-soft: 46 46 46;
+    --c-slate: 75 85 99;
+    --c-muted: 107 114 128;
+    --c-border: 229 221 208;
+    --c-border-strong: 199 184 158;
+    --c-error: 155 44 44;
+    /* Fixed brand vars for non-utility contexts (text selection). */
     --cream: #fbf8f1;
-    --ivory: #f5efe3;
-    --paper: #fdfbf6;
     --forest: #1f5132;
-    --forest-dark: #163a23;
-    --emerald: #2d6a4f;
-    --sage: #95d5b2;
-    --gold: #c9a227;
-    --ink: #1a1a1a;
-    --slate: #4b5563;
-    --border: #e5ddd0;
   }
 
+  .dark {
+    color-scheme: dark;
+    --c-ivory: 22 32 26; /* alt surface */
+    --c-paper: 27 38 31; /* card surface */
+    --c-emerald: 149 213 178; /* sage — accents/links read light on dark */
+    --c-ink: 242 238 228; /* primary text */
+    --c-ink-soft: 205 211 203;
+    --c-slate: 166 176 168; /* secondary text */
+    --c-muted: 126 139 130;
+    --c-border: 42 58 49; /* hairline */
+    --c-border-strong: 58 78 66;
+    --c-error: 240 161 161; /* light red, readable on dark */
+  }
+
+  /* Set the page background eagerly (before body paints) to avoid a theme flash.
+     The inline <head> script in BaseLayout adds `.dark` before first paint. */
   html {
+    background-color: #fbf8f1;
     scroll-behavior: smooth;
-    /* Offset in-page anchor jumps so the sticky nav doesn't cover headings. */
     scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
-
-  body {
-    @apply bg-cream text-ink font-sans text-body antialiased;
+  html.dark {
+    background-color: #0f1714;
   }
 
-  /* Headings default to Fraunces; h4 stays Inter per the design system. */
+  body {
+    @apply bg-cream text-ink font-sans text-body antialiased dark:bg-night;
+  }
+
+  /* Headings default to Fraunces; per-section color is set on the element. */
   h1,
   h2,
   h3 {
@@ -50,12 +72,15 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Visible, AA-compliant focus ring on interactive elements only.
-     box-shadow hugs each element's own border-radius. */
+  /* Visible, AA-compliant focus ring on interactive elements only. */
   :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-    outline: 2px solid transparent; /* visible in forced-colors / Windows high-contrast */
+    outline: 2px solid transparent; /* visible in forced-colors mode */
     outline-offset: 2px;
     box-shadow: theme('boxShadow.focus');
+  }
+  /* Lighter ring in dark mode so it stays visible on the dark background. */
+  .dark :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    box-shadow: 0 0 0 3px rgba(149, 213, 178, 0.4);
   }
 
   ::selection {

@@ -6,11 +6,11 @@
     "credentials": "NISM V-A Certified · IRDAI POSP"
   },
   "contact": {
-    "email": "hello@asmfinance.in",
-    "privacyEmail": "privacy@asmfinance.in",
-    "phoneDisplay": "+91 XX XXX XXXXX",
+    "email": "asminvestments@gmail.com",
+    "privacyEmail": "aksuman74@gmail.com",
+    "phoneDisplay": "+91 9045-7489-71",
     "office": "Mathura, Uttar Pradesh, India",
-    "officeHours": "Mon–Sat, 10:00–18:00 IST"
+    "officeHours": "Mon–Sat, 09:00–18:00 IST"
   },
   "cta": {
     "primary": "Book a free 30-min call",
@@ -32,7 +32,8 @@
       { "key": "sip", "label": "Mutual fund / SIP help", "segment": "core" },
       { "key": "plan", "label": "A full plan", "segment": "premium" },
       { "key": "nri", "label": "NRI services", "segment": "nri" },
-      { "key": "insurance", "label": "Insurance review", "segment": "premium" }
+      { "key": "insurance", "label": "Insurance review", "segment": "premium" },
+      { "key": "custom", "label": "Custom solution", "segment": "premium" }
     ]
   }
 }
