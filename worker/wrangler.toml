@@ -1,0 +1,12 @@
+name = "asmfinance-leads"
+main = "index.js"
+compatibility_date = "2024-11-01"
+
+# Non-secret config. Edit these for your inbox / sender / allowed origins.
+[vars]
+TO_EMAIL = "asminvestments@gmail.com"
+FROM_EMAIL = "ASM Leads <onboarding@resend.dev>"
+ALLOWED_ORIGIN = "https://asmfinance.tech,https://www.asmfinance.tech,http://localhost:4321"
+
+# RESEND_API_KEY is a SECRET — do NOT put it here.
+# Set it with:  wrangler secret put RESEND_API_KEY
