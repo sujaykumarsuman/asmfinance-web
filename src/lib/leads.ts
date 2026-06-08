@@ -20,11 +20,24 @@ export interface LeadPayload {
   country: CountryCode;
   segment: Segment;
   message?: string;
+  /** Optional callback availability — the days/time-windows the visitor is free
+   *  this coming week (a request, not a confirmed slot). */
+  availability?: { days: string[]; windows: string[] };
+  /** Visitor's detected IANA timezone (e.g. "America/New_York"), for NRI callbacks. */
+  timezone?: string;
   consent: true;
   /** Optional: Cloudflare Turnstile was removed from the site. Kept optional for
    *  API back-compat; the API should no longer require it. */
   turnstile_token?: string;
 }
+
+/** Callback-availability picker config — edit labels/windows in src/data/site.json. */
+export const CALL = siteData.form.call as {
+  prompt: string;
+  note: string;
+  days: string[];
+  windows: { key: string; label: string; hint: string }[];
+};
 
 /** Consent copy — edit in src/data/site.json (form.consentText). */
 export const CONSENT_TEXT: string = siteData.form.consentText;

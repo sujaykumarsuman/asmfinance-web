@@ -13,11 +13,21 @@
     "officeHours": "Mon–Sat, 09:00–18:00 IST"
   },
   "cta": {
-    "primary": "Book a free 30-min call",
-    "secondary": "Send a message"
+    "primary": "Request a callback",
+    "secondary": "Chat on WhatsApp"
   },
   "form": {
     "consentText": "I consent to ASM Investments contacting me about this enquiry. I have read the Privacy Notice.",
+    "call": {
+      "prompt": "Prefer a call? Tell us when suits you.",
+      "note": "We'll call during one of these windows and confirm. Times shown in IST.",
+      "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      "windows": [
+        { "key": "morning", "label": "Morning", "hint": "9–12" },
+        { "key": "afternoon", "label": "Afternoon", "hint": "12–3" },
+        { "key": "evening", "label": "Evening", "hint": "3–6" }
+      ]
+    },
     "countries": [
       { "value": "IN", "label": "India" },
       { "value": "AE", "label": "UAE" },

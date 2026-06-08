@@ -1,8 +1,9 @@
 import { useEffect, useId, useState } from 'react';
-import { Send, Loader2, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
+import { Phone, Loader2, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
 import {
   COUNTRY_OPTIONS,
   SEGMENT_OPTIONS,
+  CALL,
   segmentEnumToKey,
   segmentForKey,
   isValidEmail,
@@ -30,6 +31,17 @@ const labelCls = 'mb-1.5 block text-caps uppercase text-gold';
 // injected where the phrase "Privacy Notice" appears.
 const CONSENT_PARTS = CONSENT_TEXT.split('Privacy Notice');
 
+// Toggle a value in/out of a string[] (for the multi-select availability chips).
+function toggleIn(list: string[], val: string): string[] {
+  return list.includes(val) ? list.filter((v) => v !== val) : [...list, val];
+}
+const chipCls = (active: boolean) =>
+  `rounded-full border px-3.5 py-1.5 text-small font-medium transition-colors ${
+    active
+      ? 'border-forest bg-forest text-cream dark:border-sage dark:bg-sage dark:text-night'
+      : 'border-border-strong text-ink-soft hover:border-forest dark:hover:border-sage'
+  }`;
+
 export default function ContactForm({
   apiBase,
   email,
@@ -42,6 +54,9 @@ export default function ContactForm({
   const [country, setCountry] = useState('');
   const [segmentKey, setSegmentKey] = useState('');
   const [message, setMessage] = useState('');
+  const [callDays, setCallDays] = useState<string[]>([]);
+  const [callWindows, setCallWindows] = useState<string[]>([]);
+  const [timezone, setTimezone] = useState('');
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState(''); // honeypot — real users leave empty
   const [status, setStatus] = useState<Status>('idle');
@@ -52,10 +67,16 @@ export default function ContactForm({
   const fid = (s: string) => `${uid}-${s}`;
   const err = (k: FieldKey) => (errors[k] ? fid(`${k}-err`) : undefined);
 
-  // Prefill "I'm looking for" from a tier-CTA deep link (?seg=core|premium|wealth|nri).
+  // Prefill "I'm looking for" from a tier-CTA deep link (?seg=core|premium|wealth|nri),
+  // and detect the visitor's timezone (handy when calling back an NRI).
   useEffect(() => {
     const key = segmentEnumToKey(new URLSearchParams(window.location.search).get('seg'));
     if (key) setSegmentKey(key);
+    try {
+      setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+    } catch {
+      /* timezone is a nice-to-have; ignore if unavailable */
+    }
   }, []);
 
   function validate(): Errors {
@@ -89,6 +110,7 @@ export default function ContactForm({
       return;
     }
 
+    const hasAvailability = callDays.length > 0 || callWindows.length > 0;
     const payload: LeadPayload = {
       full_name: fullName.trim(),
       country: country as CountryCode,
@@ -97,6 +119,8 @@ export default function ContactForm({
       ...(emailVal.trim() ? { email: emailVal.trim() } : {}),
       ...(whatsapp.trim() ? { whatsapp: whatsapp.trim() } : {}),
       ...(message.trim() ? { message: message.trim().slice(0, 1500) } : {}),
+      ...(hasAvailability ? { availability: { days: callDays, windows: callWindows } } : {}),
+      ...(timezone ? { timezone } : {}),
     };
 
     setStatus('submitting');
@@ -116,10 +140,10 @@ export default function ContactForm({
         className="flex h-full flex-col items-start justify-center gap-3 rounded-lg border border-border bg-cream p-8 dark:bg-night"
       >
         <CheckCircle2 className="h-9 w-9 text-emerald" aria-hidden="true" />
-        <h3 className="text-h3 text-forest dark:text-sage">Thank you — message received.</h3>
+        <h3 className="text-h3 text-forest dark:text-sage">Thank you — your request is in.</h3>
         <p className="text-body text-slate">
-          We've got your enquiry and will reply within one business day. For anything urgent, reach
-          us on WhatsApp.
+          We'll call you within one business day — during a window you picked where we can. For
+          anything urgent, reach us on WhatsApp.
         </p>
         {whatsappHref && (
           <a
@@ -318,6 +342,42 @@ export default function ContactForm({
         />
       </div>
 
+      {/* Callback availability — optional day + time-of-day chips (multi-select).
+          A request, not a confirmed slot; ASM calls during one of these windows. */}
+      <fieldset>
+        <legend className={labelCls}>
+          {CALL.prompt}{' '}
+          <span className="normal-case tracking-normal text-muted">(optional)</span>
+        </legend>
+        <p className="mb-2.5 mt-1 text-small text-muted">{CALL.note}</p>
+        <div className="flex flex-wrap gap-2">
+          {CALL.days.map((d) => (
+            <button
+              key={d}
+              type="button"
+              aria-pressed={callDays.includes(d)}
+              onClick={() => setCallDays(toggleIn(callDays, d))}
+              className={chipCls(callDays.includes(d))}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {CALL.windows.map((w) => (
+            <button
+              key={w.key}
+              type="button"
+              aria-pressed={callWindows.includes(w.key)}
+              onClick={() => setCallWindows(toggleIn(callWindows, w.key))}
+              className={chipCls(callWindows.includes(w.key))}
+            >
+              {w.label} <span className="ml-0.5 opacity-70">{w.hint}</span>
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
       {/* Consent (DPDP) */}
       <div>
         <label className="flex items-start gap-3 text-body text-ink-soft">
@@ -384,8 +444,8 @@ export default function ContactForm({
           </>
         ) : (
           <>
-            <Send className="h-4 w-4" aria-hidden="true" />
-            Send message
+            <Phone className="h-4 w-4" aria-hidden="true" />
+            Request a callback
           </>
         )}
       </button>
