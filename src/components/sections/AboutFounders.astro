@@ -8,24 +8,19 @@ import { ANCHORS } from '../../lib/site';
 
 <SectionContainer id={ANCHORS.about} bg="ivory" class="scroll-mt-20">
   <div class="grid items-center gap-10 lg:grid-cols-5 lg:gap-14">
-    <!-- Portrait composite: Anjali (left) + Arvind (right), forest duotone on cream -->
+    <!-- Founders in the early years — forest-gold duotone cut-out, blended into the
+         section the way the hero is (no frame, soft bottom fade). -->
     <figure class="lg:col-span-2">
       <picture>
-        <source
-          type="image/webp"
-          srcset="/founders/founders-cream-800.webp 800w, /founders/founders-cream-1600.webp 1600w"
-          sizes="(min-width: 1024px) 40vw, 100vw"
-        />
+        <source type="image/webp" srcset="/founders/founders-story.webp" />
         <img
-          src="/founders/founders-cream-800.png"
-          srcset="/founders/founders-cream-800.png 800w, /founders/founders-cream-1600.png 1600w"
-          sizes="(min-width: 1024px) 40vw, 100vw"
-          width="1600"
-          height="1056"
+          src="/founders/founders-story.png"
+          width="628"
+          height="397"
           loading="lazy"
           decoding="async"
-          alt="Anjali Suman and Arvind Kumar Suman, founders of ASM Investments"
-          class="w-full rounded-lg border border-border shadow-card"
+          alt="Anjali Suman and Arvind Kumar Suman in the early years of ASM Investments"
+          class="mx-auto w-full max-w-md select-none lg:max-w-none [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)] [-webkit-mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]"
         />
       </picture>
     </figure>
@@ -37,24 +32,30 @@ import { ANCHORS } from '../../lib/site';
 
       <div class="mt-6 space-y-4 text-body text-ink-soft">
         <p>
-          ASM Investments was founded in <strong class="font-semibold text-ink">2007 by Anjali
-          Suman</strong>, who began advising a small circle of families in Mathura through what was
-          then a rapidly evolving Indian mutual fund landscape. In <strong
-            class="font-semibold text-ink">2017, Arvind Kumar Suman</strong> — her husband and an
-          AMFI-registered IFA — expanded the practice into a multi-asset advisory covering equity
-          broking through the Mirae Asset Sharekhan franchise, insurance, and goal-based investing
-          for families.
+          ASM Investments began in <strong class="font-semibold text-ink">2007</strong>, when
+          <strong class="font-semibold text-ink">Anjali Suman</strong> earned her NISM Series V-A
+          certification — not just to look after her own family's money, but to understand how
+          India's wealthiest families build and protect theirs. With <strong
+            class="font-semibold text-ink">Arvind</strong>, then serving in the Indian Air Force,
+          opening the first doors, she began advising families across the defence community — and,
+          by word of mouth, far beyond it.
         </p>
         <p>
-          What started as a few client families has grown into a diverse book across Delhi-NCR,
-          Uttar Pradesh, South India, East India, and select high-net-worth and NRI relationships.
-          The thing that has not changed in two decades: every client speaks to the same partner who
-          started the relationship.
+          By <strong class="font-semibold text-ink">2017</strong> she was guiding over 500 families
+          and individuals, with more than ₹20 crore under advice. That year Arvind retired from the
+          Air Force and joined her full-time — a decade of helping after-hours behind him, and a
+          fresh AMFI registration in hand. Together they've since grown the practice to
+          <strong class="font-semibold text-ink">around ₹50 crore in client assets</strong>, and
+          broadened it into multi-asset advice — mutual funds, equity, insurance and goal-based
+          planning — for a deliberately mixed book: defence officers, business owners, working
+          professionals, and HNI and NRI families.
         </p>
         <p>
-          The next generation — Sujay, a backend engineer — is now building the tech platform that
-          will let ASM serve clients across India and the diaspora at the standard a modern wealth
-          advisory demands.
+          What has never changed is how they work — the partner who opens a relationship stays on
+          it, reachable when it matters, never handed off to a call centre. And the practice is
+          built to outlast its founders: their <strong class="font-semibold text-ink">two sons are
+          now AMFI-certified</strong> and advising alongside them, so the family that started ASM is
+          the family that will carry it on.
         </p>
       </div>
 
