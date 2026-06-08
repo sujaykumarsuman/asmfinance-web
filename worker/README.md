@@ -1,53 +1,55 @@
 # Lead-capture Worker (interim backend)
 
 A tiny Cloudflare Worker that receives the contact-form POST and **emails the lead
-to your Gmail** via [Resend](https://resend.com). Free, serverless, no VPS. It
-implements the same `POST /v1/leads` contract the site already uses, so the
-frontend doesn't change — you just point `PUBLIC_API_BASE` at this Worker.
+to `contact@asmfinance.tech` from your own Google Workspace** — via a small Google
+Apps Script. Free, no third-party email vendor, no extra DNS. It implements the same
+`POST /v1/leads` contract the site already uses, so the frontend doesn't change —
+you just point `PUBLIC_API_BASE` at this Worker.
 
-When you build the full Go API later, swap `PUBLIC_API_BASE` back and delete this.
+```
+form  ->  Worker (CORS + validate + honeypot)  ->  Apps Script  ->  Gmail (your Workspace)
+```
 
-## 1. Resend (the email sender) — ~5 min
+When you build the full Go API later, repoint `PUBLIC_API_BASE` and delete `worker/`.
 
-> **Prerequisite:** `asmfinance.tech` email must be live first — i.e. the Google
-> Workspace **MX / SPF / DKIM** records added at Hostinger. Until then, mail to
-> `contact@asmfinance.tech` bounces and nothing arrives.
+## 1. Apps Script (the email sender) — ~5 min
 
-1. Sign up at [resend.com](https://resend.com).
-2. **Verify the domain:** Resend → Domains → add `asmfinance.tech`. Add the DNS
-   records it shows at Hostinger (a `resend._domainkey` DKIM TXT + a `send`
-   subdomain for bounces) — they coexist with your Google Workspace records.
-3. Create an **API key** (Dashboard → API Keys) and copy it.
+1. Sign in as **`contact@asmfinance.tech`** and open [script.google.com](https://script.google.com) → **New project**.
+2. Paste **`leads.gs`** in as `Code.gs`.
+3. Set `SHARED_SECRET` to a long random string — e.g. `openssl rand -hex 24`.
+4. **Deploy → New deployment → Web app:**
+   - **Execute as:** Me (contact@asmfinance.tech)
+   - **Who has access:** Anyone
+   - Authorize when prompted, then **copy the `/exec` Web app URL.**
 
-This lets the Worker send **from** `leads@asmfinance.tech` **to** `contact@asmfinance.tech`.
+Only the Worker (which knows `SHARED_SECRET`) can actually trigger a send.
 
-## 2. Deploy the Worker — 2 min
+## 2. Deploy the Worker — ~2 min
 
 From this `worker/` directory:
 
 ```bash
-npx wrangler login                      # opens a browser to authorize Cloudflare
-npx wrangler secret put RESEND_API_KEY  # paste the Resend key when prompted
-npx wrangler deploy                     # prints your Worker URL
+npx wrangler login
+npx wrangler secret put APPS_SCRIPT_URL       # paste the /exec URL from step 1
+npx wrangler secret put LEADS_SHARED_SECRET   # paste the SAME secret as in leads.gs
+npx wrangler deploy                           # prints your Worker URL
 ```
 
-That prints a URL like `https://asmfinance-leads.<your-subdomain>.workers.dev`.
+That prints `https://asmfinance-leads.<your-subdomain>.workers.dev`.
+(`ALLOWED_ORIGIN` is already set in `wrangler.toml`.)
 
-> Prefer no CLI? In the Cloudflare dashboard: **Workers & Pages → Create → Worker**,
-> paste `index.js`, add the `[vars]` from `wrangler.toml` under **Settings → Variables**,
-> add `RESEND_API_KEY` as a **secret**, and Deploy.
-
-Edit `TO_EMAIL` / `FROM_EMAIL` / `ALLOWED_ORIGIN` in `wrangler.toml` first if needed.
+> Prefer the dashboard? **Workers & Pages → Create → Worker**, paste `index.js`,
+> add the `ALLOWED_ORIGIN` var and the two secrets under **Settings → Variables**, Deploy.
 
 ## 3. Point the site at the Worker — 1 min
 
-In the **site** repo, set `PUBLIC_API_BASE` to your Worker URL (no trailing slash):
+In the **site** repo set `PUBLIC_API_BASE` to your Worker URL (no trailing slash):
 
 - `.github/workflows/deploy.yml` → under `pnpm build` `env:` change
   `PUBLIC_API_BASE: https://api.asmfinance.tech` → your `…workers.dev` URL.
-- `.env.local` (for local dev) → same.
+- `.env.local` (local dev) → same.
 
-Push to `main` → the site redeploys and the form now posts to the Worker
+Push to `main` → the site redeploys and the form posts to the Worker
 (`${PUBLIC_API_BASE}/v1/leads`).
 
 ## 4. Test
@@ -56,14 +58,15 @@ Push to `main` → the site redeploys and the form now posts to the Worker
 curl -i -X POST https://asmfinance-leads.<sub>.workers.dev/v1/leads \
   -H 'Content-Type: application/json' -H 'Origin: https://asmfinance.tech' \
   -d '{"full_name":"Test Lead","email":"you@example.com","country":"IN","segment":"core","consent":true}'
-# expect: HTTP/1.1 201 + {"id":"lead_...","status":"received"}  and an email in your inbox
+# expect: 201 {"id":"lead_...","status":"received"}  + an email in contact@asmfinance.tech
 ```
 
 ## Notes
 
-- **Spam:** the honeypot is enforced here too. No rate limiting yet (that needs
-  Workers KV); if spam appears, add a Cloudflare rate-limit rule or a bot challenge.
-- **No storage:** this only emails. To also keep a log, add a Google Sheet or
-  Workers KV/D1 sink later (easy to bolt on).
-- **Custom domain (optional):** bind the Worker to `api.asmfinance.tech` in
-  Cloudflare and you can keep `PUBLIC_API_BASE=https://api.asmfinance.tech`.
+- **Sender:** create the Apps Script while signed in as `contact@asmfinance.tech` so
+  mail comes from that address. Apps Script's MailApp quota (~1,500/day on Workspace)
+  is far above a contact form's needs.
+- **Spam:** the honeypot is enforced in the Worker. No rate limiting yet (needs
+  Workers KV); add a Cloudflare rate-limit rule if spam appears.
+- **No storage:** this only emails. To also keep a running log, have `leads.gs` append
+  a row to a Google Sheet (`SpreadsheetApp`) — a couple of extra lines.
