@@ -14,3 +14,6 @@ npm-debug.log*
 .DS_Store
 # local tooling / editor state
 .claude/
+# wrangler (Cloudflare Worker) local secrets + cache
+.dev.vars
+.wrangler/

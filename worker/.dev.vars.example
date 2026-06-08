@@ -1,0 +1,10 @@
+# Local Worker dev only — read by `wrangler dev` in this worker/ directory.
+# Copy to `worker/.dev.vars` (gitignored) and fill in real values.
+#
+# PRODUCTION does NOT use this file — set the same values as encrypted secrets:
+#   wrangler secret put APPS_SCRIPT_URL
+#   wrangler secret put LEADS_SHARED_SECRET
+# Never commit real secrets.
+
+APPS_SCRIPT_URL=https://script.google.com/macros/s/REPLACE_ME/exec
+LEADS_SHARED_SECRET=replace-with-the-same-secret-as-in-leads.gs
