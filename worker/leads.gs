@@ -28,6 +28,24 @@ const SEGMENTS = {
   exploring: 'Just exploring',
 };
 
+const WINDOWS = { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening' };
+
+// Format the callback availability (days + IST time-windows) the visitor picked.
+function formatAvailability(a) {
+  if (!a || typeof a !== 'object') return '—';
+  var days = Array.isArray(a.days) ? a.days : [];
+  var windows = Array.isArray(a.windows)
+    ? a.windows.map(function (w) {
+        return WINDOWS[w] || w;
+      })
+    : [];
+  if (!days.length && !windows.length) return '—';
+  var parts = [];
+  if (days.length) parts.push(days.join(', '));
+  if (windows.length) parts.push(windows.join(', ') + ' (IST)');
+  return parts.join(' · ');
+}
+
 function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents);
@@ -39,14 +57,16 @@ function doPost(e) {
     const text = [
       'New enquiry via asmfinance.tech',
       '',
-      'Name:        ' + (lead.full_name || '—'),
-      'Email:       ' + (lead.email || '—'),
-      'WhatsApp:    ' + (lead.whatsapp || '—'),
-      'Country:     ' + (lead.country || '—'),
-      'Looking for: ' + seg,
-      'Message:     ' + (lead.message || '—'),
-      'Consent:     ' + (lead.consent === true ? 'yes' : 'no'),
-      'Lead id:     ' + (body.id || '—'),
+      'Name:         ' + (lead.full_name || '—'),
+      'Email:        ' + (lead.email || '—'),
+      'WhatsApp:     ' + (lead.whatsapp || '—'),
+      'Country:      ' + (lead.country || '—'),
+      'Looking for:  ' + seg,
+      'Call windows: ' + formatAvailability(lead.availability),
+      'Their TZ:     ' + (lead.timezone || '—'),
+      'Message:      ' + (lead.message || '—'),
+      'Consent:      ' + (lead.consent === true ? 'yes' : 'no'),
+      'Lead id:      ' + (body.id || '—'),
     ].join('\n');
 
     MailApp.sendEmail({
