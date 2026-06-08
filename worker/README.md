@@ -7,14 +7,19 @@ frontend doesn't change — you just point `PUBLIC_API_BASE` at this Worker.
 
 When you build the full Go API later, swap `PUBLIC_API_BASE` back and delete this.
 
-## 1. Resend (the email sender) — 2 min
+## 1. Resend (the email sender) — ~5 min
 
-1. Sign up at [resend.com](https://resend.com) **using `asminvestments@gmail.com`** —
-   that lets emails reach that inbox immediately, before any domain setup.
-2. Create an **API key** (Dashboard → API Keys). Copy it.
-3. Sender: the default `onboarding@resend.dev` works right away for delivery to
-   your own signup address. Later, verify `asmfinance.tech` in Resend (add the DNS
-   records it shows) and change `FROM_EMAIL` to e.g. `ASM Leads <leads@asmfinance.tech>`.
+> **Prerequisite:** `asmfinance.tech` email must be live first — i.e. the Google
+> Workspace **MX / SPF / DKIM** records added at Hostinger. Until then, mail to
+> `contact@asmfinance.tech` bounces and nothing arrives.
+
+1. Sign up at [resend.com](https://resend.com).
+2. **Verify the domain:** Resend → Domains → add `asmfinance.tech`. Add the DNS
+   records it shows at Hostinger (a `resend._domainkey` DKIM TXT + a `send`
+   subdomain for bounces) — they coexist with your Google Workspace records.
+3. Create an **API key** (Dashboard → API Keys) and copy it.
+
+This lets the Worker send **from** `leads@asmfinance.tech` **to** `contact@asmfinance.tech`.
 
 ## 2. Deploy the Worker — 2 min
 
