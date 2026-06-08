@@ -118,16 +118,14 @@ async function forwardToScript(env, id, lead) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ secret: env.LEADS_SHARED_SECRET, id, lead }),
-      // Apps Script /exec replies with a 302 to googleusercontent — follow it.
-      redirect: 'follow',
+      // Apps Script /exec runs doPost, then 302-redirects to googleusercontent
+      // (whose body isn't readable server-side). A 302/opaqueredirect means doPost
+      // executed; with a matching secret the email was sent. So don't follow it.
+      redirect: 'manual',
     });
-    if (!res.ok) return false;
-    const text = await res.text();
-    try {
-      return JSON.parse(text).ok === true;
-    } catch {
-      return false;
-    }
+    if (res.status === 302 || res.status === 0) return true;
+    if (res.ok) return /"ok"\s*:\s*true/.test(await res.text().catch(() => ''));
+    return false;
   } catch {
     return false;
   }
