@@ -3,7 +3,8 @@ import SectionContainer from '../SectionContainer.astro';
 import Eyebrow from '../Eyebrow.astro';
 import Button from '../Button.astro';
 import TrustChip from '../TrustChip.astro';
-import { CTA, ANCHORS } from '../../lib/site';
+import { Icon } from 'astro-icon/components';
+import { CTA, ANCHORS, whatsappLink } from '../../lib/site';
 
 // §1 Hero (docs/02-content-spec.md). Copy verbatim.
 const trust = [
@@ -13,6 +14,7 @@ const trust = [
   'IRDAI POSP',
   'GIFT City partner network',
 ];
+const wa = whatsappLink('Hi ASM Investments, I would like to talk.');
 ---
 
 <SectionContainer bg="cream" spacing="none" class="pt-16 md:pt-20 lg:pt-24">
@@ -29,7 +31,10 @@ const trust = [
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Button variant="primary" href={`#${ANCHORS.contact}`}>{CTA.primary}</Button>
-        <Button variant="secondary" href={`#${ANCHORS.contact}`}>{CTA.secondary}</Button>
+        <Button variant="secondary" href={wa ?? `#${ANCHORS.contact}`} rel={wa ? 'noopener' : undefined}>
+          <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
+          {CTA.secondary}
+        </Button>
       </div>
     </div>
 
