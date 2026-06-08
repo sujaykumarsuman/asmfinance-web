@@ -28,7 +28,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
         env:
-          PUBLIC_API_BASE: https://api.asmfinance.tech
+          PUBLIC_API_BASE: https://asmfinance-leads.asmfinance-leads.workers.dev
       - uses: actions/upload-pages-artifact@v3
         with: { path: ./dist }
 
